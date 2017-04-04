@@ -1,5 +1,5 @@
 .theme-start {
-  background-color: #0078ae;
+  /*background-color: #0078ae;*/
 }
 .maxHeight {
   height:100vh;
@@ -21,8 +21,3 @@ footer {
   box-shadow: 0 -2px 6px;
 }
 
-.ui-widget-header .ui-state-default, .ui-widget-content .ui-state-default, .ui-state-default {
-    border: 0px solid #77d5f7;
-    background: #0078ae;
-    color: #ffffff;
-}

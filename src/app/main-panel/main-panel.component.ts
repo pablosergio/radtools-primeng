@@ -8,14 +8,19 @@ import { MenuItem } from 'primeng/primeng';
   styleUrls: ['./main-panel.component.css']
 })
 export class MainPanelComponent implements OnInit {
-  @Input() tieneSideMenu: boolean = true;	
+  @Input() tieneSideMenu: boolean = false;	
   private sidemenu: boolean;	
   private items: MenuItem[];
+  private usuario: string = "P. Sergio Alvarado G.";
   constructor() { }
 
   ngOnInit() {
-  	this.sidemenu = true;
+  	this.sidemenu = this.tieneSideMenu;
   	this.items = [
+            {
+              label: '',
+              icon: 'logo-icon'
+            },
             {
                 label: 'File',
                 items: [{
@@ -39,6 +44,10 @@ export class MainPanelComponent implements OnInit {
                 ]
             }
         ];
+  }
+
+  logout(event) {
+    alert('salir');
   }
 
 }
