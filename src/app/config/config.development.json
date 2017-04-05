@@ -1,0 +1,11 @@
+{
+    "host": "http://localhost:8081",
+    "endpoints": {
+     	"login": {
+     		"proxyId": "/api/login"
+     	},
+     	"applicationSettings": {
+     		"proxyId": "/api/application/applications"
+     	}
+    }
+}

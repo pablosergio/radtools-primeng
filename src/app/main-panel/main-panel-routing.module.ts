@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes }  from '@angular/router';
 import { MainPanelComponent } from './main-panel.component';
 
-//import { AuthGuardService } from '../auth/auth-guard.service';
+import { AuthGuardService } from '../common/api';
 
 const mainPanelRoutes: Routes = [
    {
     path: '',
-    /*canActivate: [AuthGuardService],
-    resolve: {
+    canActivate: [AuthGuardService],
+    /*resolve: {
        settingApplicationsGrid: SettingApplicationsGridResolver
     },*/
     component: MainPanelComponent,

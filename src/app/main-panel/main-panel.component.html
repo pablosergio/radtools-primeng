@@ -1,16 +1,16 @@
 <div class="ui-g maxHeight">
     <div class="ui-g-12 ui-md-2 theme-start" [hidden]=!sidemenu>
      	<div class="btn-group">
-       		<img id="logo" src="../../images/radlogo-light.png" alt="branding logo" style="margin: 10px;">
+       		<img id="logo" src="../../images/radlogo-light.png" alt="branding logo" style="margin-top: 40px; margin-bottom: 40px; margin-right: 10px; margin-left: 10px;">
     	</div>
     	<p-panelMenu [model]="items" [style]="{'width':'100%'}"></p-panelMenu>
     </div>
-    <div class="ui-g-12 ui-md-10 ui-g-nopad">
+    <div class="ui-g-12 ui-g-nopad" [ngClass]="{'ui-md-10': sidemenu, 'ui-md-12': !sidemenu }" >
         <div class="ui-g-12" [hidden]=sidemenu>
           <p-menubar [model]="items" [user]="usuario" (onLogout)="logout($event)"></p-menubar>
         </div>
         <div class="ui-g-12 ui-g-nopad">
-            <p-panel header="Title" [toggleable]="true"></p-panel>
+            <!--<p-panel header="Title" [toggleable]="true"></p-panel>-->
             <!--<div class="ui-g">
                 <div class="ui-g-12 ui-md-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet, orci nec dictum convallis, ligula mauris vestibulum turpis, nec varius tortor quam at diam. Nullam a viverra nibh. In tincidunt tempor lectus quis vulputate. Pellentesque nec dui aliquam, lobortis est in, lobortis ante</div>
                 <div class="ui-g-12 ui-md-4">Maecenas vel nisi aliquet, vulputate tortor id, laoreet massa. Maecenas mattis tristique bibendum. Suspendisse vel mi dictum, vestibulum lacus quis, pulvinar quam. Proin vulputate, nibh at finibus varius, leo eros lacinia elit, nec blandit odio tellus a justo. Donec nec ex auctor, tristique nulla nec, rutrum sapien.</div>
