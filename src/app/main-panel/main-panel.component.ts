@@ -17,10 +17,10 @@ export class MainPanelComponent implements OnInit {
   ngOnInit() {
   	this.sidemenu = this.tieneSideMenu;
   	this.items = [
-            {
+            /*{
               label: '',
               icon: 'logo-icon'
-            },
+            },*/
             {
                 label: 'File',
                 items: [{

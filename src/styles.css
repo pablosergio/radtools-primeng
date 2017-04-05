@@ -5,7 +5,7 @@
     color: #ffffff;
 }*/
 
-.logo-icon {
+.icon-logo {
 	background: url(images/radlogo-light.png) no-repeat !important;
     height: 25px;
     width: 175px;
@@ -26,6 +26,13 @@
 	border: 0px solid transparent;
 	width: auto;
 }
+.btn-logo {
+	float:left; 
+	margin-top: 0px;
+	border: 0px solid transparent;
+	width: auto;
+}
+
 .icon-btn {
 	margin-right: 8px;
 }

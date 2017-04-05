@@ -103,6 +103,7 @@ export class MenubarSub {
     template: `
         <div [ngClass]="{'ui-menubar ui-menu ui-widget ui-widget-content ui-corner-all ui-helper-clearfix':true}" 
             [class]="styleClass" [ngStyle]="style">
+            <a class="btn ui-menu btn-logo"><img src="images/radlogo-light.png" style="margin-right: 10px;"/></a>
             <p-menubarSub [item]="model" root="root"></p-menubarSub>
             <a class="btn ui-menu btn-salir" (click)="logout($event)"><i class="fa fa-power-off icon-btn"></i>Salir</a>
             <a class="btn ui-menu btn-user"><i class="fa fa-user-circle icon-user"></i>{{user}}</a>
