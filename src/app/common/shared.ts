@@ -1,7 +1,7 @@
-import { NgModule, Component, OnInit, Input, Output, OnChanges, EventEmitter, trigger, state, style, animate, transition, OnDestroy } from '@angular/core';
+import { NgModule, Component, OnInit, Input, Output, OnChanges, EventEmitter, trigger, state, style, animate, transition, OnDestroy,  ChangeDetectionStrategy, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription }   from 'rxjs/Subscription';
-import { ModalCommunicationService } from './api';
+import { ModalCommunicationService, toBoolean } from './api';
 
 
 @Component({
@@ -144,11 +144,45 @@ export class DialogComponent implements OnInit {
 }
 
 
+@Component({
+  selector: 'ngl-spinner',
+  //template: "\n    <div class=\"slds-spinner\" [ngClass]=\"['slds-spinner--' + size, type ? 'slds-spinner--' + type : '']\" aria-hidden=\"false\" role=\"alert\"><div class=\"slds-spinner__dot-a\"></div><div class=\"slds-spinner__dot-b\"></div></div>\n  ",
+  template: `
+  	<div class="loading"><img src="../../images/_loading.gif" width="40" height="40" /></div>
+  	<!--<div class="loading"><img src="../../images/_loading.gif" width="20" height="20" /><strong>&nbsp;&nbsp;Procesando...</strong></div>-->
+  `,
+  styles: [`
+  	.loading {
+	  padding:20px;
+	  position: absolute;
+	  left: 50%;
+	  top: 50%;
+	  margin-left: -32px; /* -1 * image width / 2 */
+	  margin-top: -32px;  /* -1 * image height / 2 */
+	  display: block;
+	  z-index:1000;
+	}
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class NglSpinner {
+  @Input() size: 'small' | 'medium' | 'large' = 'medium';
+  @Input() type: 'brand' |  'inverse';
+
+  private _container = false;
+  @HostBinding('class.slds-spinner_container') get hasContainer() {
+    return this._container;
+  }
+  @Input() set container(container: string | boolean) {
+    this._container = toBoolean(container);
+  }
+};
+
 @NgModule({
   imports: [
     CommonModule
   ],
-  exports: [ DialogComponent ],
-  declarations: [ DialogComponent ]
+  exports: [ DialogComponent, NglSpinner ],
+  declarations: [ DialogComponent, NglSpinner ]
 })
 export class SharedModule { }

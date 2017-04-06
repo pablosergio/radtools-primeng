@@ -12,13 +12,13 @@ const mainPanelRoutes: Routes = [
        settingApplicationsGrid: SettingApplicationsGridResolver
     },*/
     component: MainPanelComponent,
-    /*children: [
+    children: [
       {
         path: 'setting-applications',
         loadChildren: 'app/setting-applications/setting-applications.module#SettingApplicationsModule',
         
       }
-    ]*/
+    ]
   }
 ];
 

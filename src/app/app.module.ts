@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppConfig } from './config/app.config';
-import { AuthService, AuthGuardService, ModalCommunicationService } from './common/api';
+import { AuthService, AuthGuardService, LoggerService, LoaderService, ModalCommunicationService, CommunicationService, DataService } from './common/api';
 
 import { SharedModule } from './common/shared';
 
@@ -16,7 +16,7 @@ import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +31,11 @@ import { AppComponent } from './app.component';
     { provide: APP_INITIALIZER, useFactory: loadConfig, deps: [AppConfig], multi: true },
     AuthService,
     AuthGuardService,
-    ModalCommunicationService
+    LoggerService,
+    LoaderService,
+    ModalCommunicationService,
+    CommunicationService,
+    DataService
   ],
   bootstrap: [AppComponent]
 })

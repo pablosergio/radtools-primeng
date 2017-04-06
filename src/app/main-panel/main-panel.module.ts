@@ -5,7 +5,7 @@ import { MainPanelRoutingModule } from './main-panel-routing.module';
 import { MenubarModule } from '../menubar/menubar.module';
 import { PanelMenuModule, PanelModule } from 'primeng/primeng';
 import { MainPanelComponent } from './main-panel.component';
-
+import { SharedModule } from '../common/shared';
 
 @NgModule({
   imports: [
@@ -14,6 +14,7 @@ import { MainPanelComponent } from './main-panel.component';
     PanelMenuModule,
     PanelModule,
     MenubarModule,
+    SharedModule
   ],
   declarations: [
   	MainPanelComponent

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MenuItem } from 'primeng/primeng';
-
+import { LoaderService } from '../common/api';
 @Component({
   moduleId: module.id,
   selector: 'main-panel',
@@ -8,13 +8,22 @@ import { MenuItem } from 'primeng/primeng';
   styleUrls: ['./main-panel.component.css']
 })
 export class MainPanelComponent implements OnInit {
-  @Input() tieneSideMenu: boolean = true;	
+  @Input() tieneSideMenu: boolean = false;	
   private sidemenu: boolean;	
   private items: MenuItem[];
   private usuario: string = "P. Sergio Alvarado G.";
-  constructor() { }
+  objLoaderStatus: boolean;
+  
+  constructor(private loaderService: LoaderService) { 
+    this.objLoaderStatus = true;
+  }
 
   ngOnInit() {
+    this.loaderService.loaderStatus.subscribe((val: boolean) => {
+      console.log('activar spinner');
+            this.objLoaderStatus = val;
+    });
+
   	this.sidemenu = this.tieneSideMenu;
   	this.items = [
             {
@@ -23,7 +32,7 @@ export class MainPanelComponent implements OnInit {
                         label: 'New', 
                         icon: 'fa-plus',
                         items: [
-                            { label: 'Project' },
+                            { label: 'Project', routerLink: ['/main/setting-applications'] },
                             { label: 'Other' },
                         ]
                     },
