@@ -297,7 +297,8 @@ export class DataTable<T> {
 
   public loadData(event){
   	this.loaderService.displayLoader(true);
-    this.service.getAll({ start: event.first , limit: event.rows })
+    //this.service.getAll({ start: event.first , limit: event.rows, sort: event.sortField, dir: event.sortOrder > 0 ? 'DESC' : 'ASC' })
+    this.service.getAll(this.transformParams(event))
     .subscribe(
          result => { 
          	this.store = result.rows,
@@ -307,6 +308,27 @@ export class DataTable<T> {
          error => this.errorMessage = <any>error
       )
   }
+
+  private transformParams(params):any {
+  	let queryParams = {};		
+  	for (var key in params) {
+  	  	if(params.hasOwnProperty('filters')){
+  	  		for(var k in params.filters)
+  	  			queryParams[k] = params.filters[k].value;
+  	  	}
+        if (params.hasOwnProperty('first'))
+            queryParams['start'] = params['first'];
+        if (params.hasOwnProperty('rows'))
+            queryParams['limit'] = params['rows'];
+        if (params.hasOwnProperty('sortField'))
+            queryParams['sort'] = params['sortField'];
+        if (params.hasOwnProperty('sortOrder'))
+        	if(params['sortOrder'])
+        		queryParams['dir'] = params['sortOrder'] > 0 ? 'DESC' : 'ASC';
+    }
+    return queryParams;	
+  }
+
 
 }
 

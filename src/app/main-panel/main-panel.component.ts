@@ -20,8 +20,7 @@ export class MainPanelComponent implements OnInit {
 
   ngOnInit() {
     this.loaderService.loaderStatus.subscribe((val: boolean) => {
-      console.log('activar spinner');
-            this.objLoaderStatus = val;
+      this.objLoaderStatus = val;
     });
 
   	this.sidemenu = this.tieneSideMenu;

@@ -4,7 +4,7 @@ import { SettingApplicationsRoutingModule } from './setting-applications-routing
 import { SettingApplicationsComponent } from './setting-applications.component';
 import { SettingApplicationsGridComponent } from './setting-applications.component';
 
-import { PanelModule, DataTableModule, SharedModule } from 'primeng/primeng';
+import { PanelModule, DataTableModule, SharedModule, DropdownModule } from 'primeng/primeng';
 
 
 import { SettingApplicationsService } from './setting-applications.service';
@@ -15,6 +15,7 @@ import { SettingApplicationsService } from './setting-applications.service';
     SettingApplicationsRoutingModule,
     PanelModule,
     DataTableModule,
+    DropdownModule,    
     SharedModule
   ],
   exports: [
