@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SettingApplications } from './setting-applications';
 import { SettingApplicationsService } from './setting-applications.service';
-import { LoaderService, PageResponse, DataService, DataTable } from '../common/api';
+import { LoaderService, PageResponse, DataService, DataTable, ModalCommunicationService } from '../common/api';
 import { SelectItem } from 'primeng/primeng';
-
+import { Subscription }  from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-setting-applications',
@@ -31,9 +31,10 @@ export class SettingApplicationsComponent implements OnInit {
   	<div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
     	<i class="fa fa-search" style="margin:4px 4px 0 0"></i>
     	<input #gb type="text" pInputText size="50" placeholder="Global Filter">
-	</div>
+        <p-splitButton [style]="{'float':'right'}" label="New" icon="fa-file-o" (onClick)="newRecord()" [model]="items"></p-splitButton>
+    </div>
   	<p-dataTable [value]="store" [rows]="8" [lazy]="true" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords" [paginator]="true" [globalFilter]="gb" selectionMode="single" [(selection)]="application" #dt>
-    	<p-column field="name_application" header="Name" sortable="true" [filter]="true" filterPlaceholder="Search">></p-column>
+  		<p-column field="name_application" header="Name" sortable="true" [filter]="true" filterPlaceholder="Search"></p-column>
     	<p-column field="path_application" header="Path"></p-column>
     	<p-column field="token_secret" header="Token"></p-column>
     	<p-column field="host" header="Host"></p-column>
@@ -53,6 +54,7 @@ export class SettingApplicationsComponent implements OnInit {
     	<p-footer><div style="text-align: left">Selected Application: {{application ? application.name_application: 'none'}}</div></p-footer>
     
 	</p-dataTable>
+	<router-outlet></router-outlet>
   `,
   styles: [],
 })
@@ -86,7 +88,11 @@ export class SettingApplicationsGridComponent extends DataTable<SettingApplicati
  }
 
  selection(record:SettingApplications){
- 		console.log(record);
+ 	console.log(record);
+ }
+
+ newRecord(){
+ 	this.router.navigate(['new'], { relativeTo: this.route });
  }
   /*onSelect(application: SettingApplications) {
     //this.router.navigate(['/setting-applications', application.application_id]);
@@ -99,5 +105,95 @@ export class SettingApplicationsGridComponent extends DataTable<SettingApplicati
   isSelected(application: SettingApplications) {
     return application.application_id === this.selectedId;
   }*/
+
+}
+
+@Component({
+  selector: 'setting-applications-form',
+  template: `
+  	<!--<p-growl [value]="msgs" sticky="sticky"></p-growl>-->
+    <window-dialog [(visible)]="showDialog" [closable]="false" [header]="true" [footer]="true" [title]="title">
+	<form>
+	   <div class="form-group">
+		<label class="center-block">Application Name
+			<input [(ngModel)]="application.name_application" [ngModelOptions]="{standalone: true}" class="form-control">
+		</label>
+		</div> 
+		<div class="form-group">
+			<label class="center-block">Application Path
+				<input  [(ngModel)]="application.path_application"  [ngModelOptions]="{standalone: true}" class="form-control">
+			</label>
+		</div>
+		<div class="form-group">
+			<label class="center-block">Token Secret
+				<input  [(ngModel)]="application.token_secret" [ngModelOptions]="{standalone: true}"  type="password" class="form-control">
+			</label>	
+		</div>
+		<div class="form-group">
+			<label class="center-block">Host
+				<input  [(ngModel)]="application.host" [ngModelOptions]="{standalone: true}"  class="form-control">
+			</label>
+		</div>
+		<div class="form-group">
+			<label class="center-block">Port
+				<input  [(ngModel)]="application.port" [ngModelOptions]="{standalone: true}" class="form-control">
+			</label>	
+		</div>
+		<div class="form-group">
+			<label class="center-block">Database
+				<input  [(ngModel)]="application.database" [ngModelOptions]="{standalone: true}" class="form-control">
+			</label>	
+		</div>
+		<div class="form-group">
+			<label class="center-block">Schema
+				<input  [(ngModel)]="application.schema" [ngModelOptions]="{standalone: true}" class="form-control">
+			</label>	
+		</div>
+	</form>
+	</window-dialog>
+  `,
+  styles: [],
+})
+
+export class SettingApplicationsFormComponent implements OnInit {
+  showDialog = true;
+  title: string = 'Setting Applications';
+  application: SettingApplications;
+  subscriptionUpdate: Subscription;
+
+  constructor(private route: ActivatedRoute, private router: Router, private service: SettingApplicationsService, private modalCommunication: ModalCommunicationService){ 
+    this.subscriptionUpdate = service.communication.update$.subscribe(
+      application => {
+        this.application = application;
+    });
+
+    this.modalCommunication.btnCancel$.subscribe(
+      result => {
+        this.cancel();
+    });
+
+    this.modalCommunication.btnSave$.subscribe(
+      result => {
+        //this.save();
+    });
+  }
+
+  ngOnInit() {
+  	this.route.data
+      .subscribe((data: { data: SettingApplications }) => {
+          this.application = data.data
+    });
+  }   
+
+  cancel() {
+    this.gotoSettingApplications();
+  }
+
+  gotoSettingApplications() {
+   // Relative navigation back to the Setting Applications
+    let applicationId = this.application ? this.application.application_id: null;
+    this.router.navigate(['../'], { relativeTo: this.route });
+    this.service.communication.update(this.application);
+  }
 
 }

@@ -13,3 +13,23 @@ export class SettingApplicationsResolverService implements Resolve<PageResponse<
     return this.service.getAll({start: 0, limit: 8});
   }
 }
+
+Injectable()
+export class SettingApplicationDetailResolverService implements Resolve<SettingApplications> {
+  constructor(private service: SettingApplicationsService) {  }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<SettingApplications> {
+    let id = route.params['id'];
+    /*if(id){
+    	this.service.endpoint = "applicationSettings";
+    	return this.service.getOne(id);
+    }
+    return Observable.create(observer => {
+             observer.next(new SettingApplications());
+             observer.complete();
+          });*/
+
+          return null;
+    
+  }
+}
