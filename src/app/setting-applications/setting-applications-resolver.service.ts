@@ -3,7 +3,7 @@ import { Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@a
 import { SettingApplications } from './setting-applications';
 import { SettingApplicationsService } from './setting-applications.service';
 import { Observable } from 'rxjs/Observable';
-import { PageResponse} from '../common/api';
+import { PageResponse, LoaderService} from '../common/api';
 
 @Injectable()
 export class SettingApplicationsResolverService implements Resolve<PageResponse<SettingApplications>> {
@@ -14,22 +14,15 @@ export class SettingApplicationsResolverService implements Resolve<PageResponse<
   }
 }
 
-Injectable()
-export class SettingApplicationDetailResolverService implements Resolve<SettingApplications> {
-  constructor(private service: SettingApplicationsService) {  }
+@Injectable()
+export class SettingApplicationsDetailsResolverService implements Resolve<SettingApplications> {
+  constructor(private service: SettingApplicationsService, private loaderService: LoaderService) {  }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<SettingApplications> {
     let id = route.params['id'];
-    /*if(id){
-    	this.service.endpoint = "applicationSettings";
-    	return this.service.getOne(id);
+    if(id === 'new'){
+      return Observable.of(new SettingApplications());
     }
-    return Observable.create(observer => {
-             observer.next(new SettingApplications());
-             observer.complete();
-          });*/
-
-          return null;
-    
+    return this.service.getOne(+id);
   }
 }

@@ -43,14 +43,22 @@ export class SettingApplicationsComponent implements OnInit {
     	<p-column field="database" header="Database" [style]="{'overflow':'visible'}" filterMatchMode="equals">
     		<template pTemplate="filter" let-col>
             	<p-dropdown [options]="databases" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
-        	</template>
+        </template>
     	</p-column>
     	<p-column field="creation_date" header="Creation Date" [style]="{'text-align':'center'}">
-			<template pTemplate="body" let-col let-account="rowData">{{ account.creation_date | date: 'dd/MM/yyyy' }}</template>
-			<template pTemplate="filter" let-col>
-				<input type="text" pInputText class="ui-column-filter" [value]="dt.filters[col.field] ? dt.filters[col.field].value : ''" (click)="dt.onFilterInputClick($event)" (keyup)="dt.onFilterKeyup($event.target.value, col.field, col.filterMatchMode)"/>
-            </template>
+			  <template pTemplate="body" let-col let-account="rowData">{{ account.creation_date | date: 'dd/MM/yyyy' }}</template>
+			  <template pTemplate="filter" let-col>
+				  <input type="text" pInputText class="ui-column-filter" [value]="dt.filters[col.field] ? dt.filters[col.field].value : ''" (click)="dt.onFilterInputClick($event)" (keyup)="dt.onFilterKeyup($event.target.value, col.field, col.filterMatchMode)"/>
+        </template>
     	</p-column>
+      <p-column styleClass="col-button">
+        <template pTemplate="header">
+         <button type="button" pButton icon="fa-refresh"></button>
+        </template>
+        <template let-application="rowData" pTemplate="body">
+            <button type="button" pButton (click)="selectApplication(application)" icon="fa-search"></button>
+        </template>
+      </p-column>
     	<p-footer><div style="text-align: left">Selected Application: {{application ? application.name_application: 'none'}}</div></p-footer>
     
 	</p-dataTable>
@@ -87,12 +95,12 @@ export class SettingApplicationsGridComponent extends DataTable<SettingApplicati
       
  }
 
- selection(record:SettingApplications){
- 	console.log(record);
+ selectApplication(record:SettingApplications){
+   this.router.navigate([record.application_id], { relativeTo: this.route });
  }
 
  newRecord(){
- 	this.router.navigate(['new'], { relativeTo: this.route });
+   this.router.navigate(['new'], { relativeTo: this.route });
  }
   /*onSelect(application: SettingApplications) {
     //this.router.navigate(['/setting-applications', application.application_id]);
@@ -181,7 +189,7 @@ export class SettingApplicationsFormComponent implements OnInit {
   ngOnInit() {
   	this.route.data
       .subscribe((data: { data: SettingApplications }) => {
-          this.application = data.data
+          this.application = data.data;
     });
   }   
 
