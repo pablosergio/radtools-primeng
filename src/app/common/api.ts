@@ -242,6 +242,7 @@ export class DataTable<T> {
   totalRecords: number;
   itemsPerPage: number = 10;
   currentPage: number;
+  currentFilter: any;
   constructor(protected route: ActivatedRoute, protected router: Router, protected service: DataService<T>, protected loaderService: LoaderService) {  }
 
   /*ngOnInit() {
@@ -282,40 +283,45 @@ export class DataTable<T> {
     return page;
   };
 
-  public reload(): number{
-    this.loaderService.displayLoader(true);
+  public reload(){
+    console.log('reload');
+    //this.loadData(this.currentFilter);
+    /*this.loaderService.displayLoader(true);
     this.service.getAll({ start: ((this.currentPage-1) * this.itemsPerPage) , limit: this.itemsPerPage})
     .subscribe(
         result => {
           this.store = result.rows,
+          this.totalRecords = result.total,
           this.loaderService.displayLoader(false)
         }, 
         error => this.errorMessage = <any>error
       )
-    return this.currentPage;
+    return this.currentPage;*/
   }
 
   public loadData(event){
-  	this.loaderService.displayLoader(true);
-    //this.service.getAll({ start: event.first , limit: event.rows, sort: event.sortField, dir: event.sortOrder > 0 ? 'DESC' : 'ASC' })
+    this.loaderService.displayLoader(true);
+    this.currentFilter = event;
     this.service.getAll(this.transformParams(event))
     .subscribe(
          result => { 
-         	this.store = result.rows,
-         	this.totalRecords = result.total,
-            this.loaderService.displayLoader(false)
+         	 this.store = result.rows,
+         	 this.totalRecords = result.total,
+           this.loaderService.displayLoader(false)
          }, 
          error => this.errorMessage = <any>error
       )
   }
 
   private transformParams(params):any {
-  	let queryParams = {};		
+    let queryParams = {};		
   	for (var key in params) {
   	  	if(params.hasOwnProperty('filters')){
   	  		for(var k in params.filters)
   	  			queryParams[k] = params.filters[k].value;
   	  	}
+        if(params.hasOwnProperty('globalFilter'))
+           queryParams['contiene'] = params['globalFilter'];
         if (params.hasOwnProperty('first'))
             queryParams['start'] = params['first'];
         if (params.hasOwnProperty('rows'))

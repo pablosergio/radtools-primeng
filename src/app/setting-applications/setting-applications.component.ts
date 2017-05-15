@@ -51,10 +51,10 @@ export class SettingApplicationsComponent implements OnInit {
 				  <input type="text" pInputText class="ui-column-filter" [value]="dt.filters[col.field] ? dt.filters[col.field].value : ''" (click)="dt.onFilterInputClick($event)" (keyup)="dt.onFilterKeyup($event.target.value, col.field, col.filterMatchMode)"/>
         </template>
     	</p-column>
-      <p-column styleClass="col-button">
-        <template pTemplate="header">
+      <p-column styleClass="col-button" [style]="{'width':'60px'}">
+        <!--<template pTemplate="header">
          <button type="button" pButton icon="fa-refresh"></button>
-        </template>
+        </template>-->
         <template let-application="rowData" pTemplate="body">
             <button type="button" pButton (click)="selectApplication(application)" icon="fa-search"></button>
         </template>
